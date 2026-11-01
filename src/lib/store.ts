@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Message, StoreProfile, Vehicle } from './types'
-import { buildSeedMessages, buildSeedVehicles, DEFAULT_PROFILE } from './seed'
+import { buildCivicVehicle, buildSeedMessages, buildSeedVehicles, DEFAULT_PROFILE } from './seed'
 import { uid } from './format'
 
 export interface Toast { id: string; text: string; kind: 'ok' | 'err' }
@@ -78,6 +78,15 @@ export const useStore = create<State>()(
     }),
     {
       name: 'automarket-store',
+      version: 1,
+      // Inclui o anúncio do Civic para quem já tem dados salvos no navegador.
+      migrate: (persisted, version) => {
+        const state = persisted as State
+        if (version < 1 && !state.vehicles.some((v) => v.id === 'civic-lxr')) {
+          return { ...state, vehicles: [buildCivicVehicle(), ...state.vehicles] }
+        }
+        return state
+      },
       // O estado de "logado" também fica aqui (sem autenticação real).
     },
   ),

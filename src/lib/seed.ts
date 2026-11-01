@@ -77,9 +77,39 @@ const DESCRIPTIONS = [
 
 const day = 86_400_000
 
+// Anúncio de simulação com fotos reais; ano, preço, vendedor e cidade são fictícios.
+export function buildCivicVehicle(): Vehicle {
+  return {
+    id: 'civic-lxr',
+    type: 'Carro',
+    brand: 'Honda',
+    model: 'Civic',
+    version: 'LXR 2.0 Flex',
+    year: 2015,
+    km: 145288,
+    price: 79900,
+    transmission: 'Automático',
+    fuel: 'Flex',
+    color: 'Branco',
+    city: 'Lins',
+    state: 'SP',
+    condition: 'Usado',
+    acceptsTrade: true,
+    featured: true,
+    status: 'ativo',
+    options: ['Ar-condicionado', 'Direção elétrica', 'Vidros elétricos', 'Airbags', 'Freios ABS', 'Rodas de liga leve', 'Bluetooth'],
+    description: 'Honda Civic LXR branco, câmbio automático, rodas de liga leve e painel digital com conexão USB e Bluetooth. Anúncio de demonstração: ano, preço e vendedor são simulados.',
+    photos: [1, 2, 3, 4, 5].map((k) => `/vehicles/civic/civic-${k}.jpg`),
+    views: 342,
+    createdAt: new Date().toISOString(),
+    sellerName: 'Garage Elite',
+    sellerPhone: '(21) 96666-0404',
+  }
+}
+
 export function buildSeedVehicles(): Vehicle[] {
   const now = Date.now()
-  return ROWS.map((r, i) => {
+  return [buildCivicVehicle(), ...ROWS.map((r, i): Vehicle => {
     const [brand, model, version, year, kmv, price, transmission, fuel, color, city, state, condition] = r
     const type = CATALOG[brand]?.type ?? 'Carro'
     const isMoto = type === 'Moto' || brand === 'Yamaha' || brand === 'Kawasaki' || model === 'R 1250 GS'
@@ -102,7 +132,7 @@ export function buildSeedVehicles(): Vehicle[] {
       sellerName: seller[0],
       sellerPhone: seller[1],
     }
-  })
+  })]
 }
 
 export function buildSeedMessages(): Message[] {
