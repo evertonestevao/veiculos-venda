@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+.dark { color-scheme: dark; }
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+}
+.dark body { background: #14161b; color: #ecebe7; }
+
+@layer components {
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition active:scale-[.98] disabled:opacity-50; }
+  .btn-primary { @apply btn bg-ink text-white hover:bg-black; }
+  .btn-accent { @apply btn bg-accent text-white hover:bg-accent-dark; }
+  .btn-ghost { @apply btn border border-paper-line bg-white text-ink hover:bg-paper; }
+  .btn-danger { @apply btn bg-red-600 text-white hover:bg-red-700; }
+  .input { @apply w-full rounded-xl border border-paper-line bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-ink-mute focus:border-accent focus:ring-2 focus:ring-accent/20; }
+  .label { @apply mb-1.5 block text-xs font-semibold uppercase tracking-wide text-ink-soft; }
+  .card { @apply rounded-2xl border border-paper-line bg-white shadow-soft; }
+  .chip { @apply inline-flex items-center rounded-full border px-3 py-1 text-xs font-medium transition cursor-pointer; }
+}
+
+/* dark mode overrides (simples e consistente) */
+.dark .card, .dark .input, .dark .btn-ghost { background: #1d2027; border-color: #2c303a; color: #ecebe7; }
+.dark .btn-ghost:hover { background: #262a33; }
+.dark .text-ink { color: #ecebe7; }
+.dark .text-ink-soft { color: #b4b8c4; }
+.dark .bg-paper { background: #14161b; }
+.dark .bg-white { background: #1d2027; }
+.dark .border-paper-line { border-color: #2c303a; }
+.dark .btn-primary { background: #ecebe7; color: #14161b; }
+
+.skeleton { @apply animate-pulse rounded-xl bg-paper-line/70; }
+.dark .skeleton { background: #2a2e38; }
+
+input[type='range'] { accent-color: #c8892b; }
