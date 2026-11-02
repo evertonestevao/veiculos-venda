@@ -34,7 +34,7 @@ export default function VehiclesList() {
   const toggleSort = (col: SortCol) => setSort((s) => (s.col === col ? { col, dir: (s.dir * -1) as 1 | -1 } : { col, dir: -1 }))
   const Th = ({ col, children }: { col: SortCol; children: string }) => (
     <th className="px-4 py-3">
-      <button onClick={() => toggleSort(col)} className="inline-flex items-center gap-1 font-semibold uppercase tracking-wide">{children}<ArrowUpDown size={12} className={sort.col === col ? 'text-accent' : 'opacity-40'} /></button>
+      <button onClick={() => toggleSort(col)} className="inline-flex items-center gap-1 font-medium">{children}<ArrowUpDown size={12} className={sort.col === col ? 'text-accent' : 'opacity-40'} /></button>
     </th>
   )
 
@@ -44,7 +44,7 @@ export default function VehiclesList() {
     <div className="mx-auto max-w-6xl space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="font-display text-3xl font-bold">Veículos</h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Veículos</h1>
           <p className="text-sm text-ink-soft">{vehicles.length} anúncios cadastrados.</p>
         </div>
         <Link to="/admin/veiculos/novo" className="btn-accent"><Plus size={16} /> Novo veículo</Link>
@@ -61,7 +61,7 @@ export default function VehiclesList() {
       </div>
 
       {sel.length > 0 && (
-        <div className="flex flex-wrap items-center gap-2 rounded-2xl bg-ink px-4 py-3 text-sm text-white">
+        <div className="flex flex-wrap items-center gap-2 rounded-xl bg-accent-soft px-4 py-3 text-sm text-ink">
           <span className="mr-auto font-medium">{sel.length} selecionado(s)</span>
           <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => act(sel, 'ativo', 'Anúncios ativados')}>Ativar</button>
           <button className="rounded-lg bg-white/10 px-3 py-1.5 hover:bg-white/20" onClick={() => act(sel, 'pausado', 'Anúncios pausados')}>Pausar</button>
@@ -75,9 +75,9 @@ export default function VehiclesList() {
           <thead className="border-b border-paper-line bg-paper">
             <tr>
               <th className="w-10 px-4 py-3"><input type="checkbox" className="accent-accent" checked={allSel} onChange={(e) => setSel(e.target.checked ? rows.map((r) => r.id) : [])} /></th>
-              <th className="px-4 py-3 font-semibold uppercase tracking-wide">Veículo</th>
+              <th className="px-4 py-3 font-medium">Veículo</th>
               <Th col="price">Preço</Th><Th col="year">Ano</Th><Th col="views">Views</Th><Th col="createdAt">Cadastro</Th>
-              <th className="px-4 py-3 font-semibold uppercase tracking-wide">Status</th>
+              <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3" />
             </tr>
           </thead>

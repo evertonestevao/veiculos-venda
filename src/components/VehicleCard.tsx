@@ -12,17 +12,17 @@ export function VehicleCard({ v, list, preview }: { v: Vehicle; list?: boolean; 
     <>
       <div className={`relative overflow-hidden bg-paper-line ${list ? 'aspect-[4/3] w-48 shrink-0 sm:w-72' : 'aspect-[4/3]'}`}>
         {v.photos[0] ? (
-          <img src={v.photos[0]} alt={`${v.brand} ${v.model}`} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+          <img src={v.photos[0]} alt={`${v.brand} ${v.model}`} loading="lazy" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-ink-mute">Sem foto</div>
         )}
         {v.featured && (
-          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-white shadow">
+          <span className="absolute left-3 top-3 inline-flex items-center gap-1 rounded-full bg-accent px-2.5 py-1 text-xs font-medium text-white">
             <Star size={11} fill="currentColor" /> Destaque
           </span>
         )}
         {v.condition === 'Novo' && (
-          <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-2.5 py-1 text-[11px] font-bold uppercase text-ink">0 km</span>
+          <span className="absolute bottom-3 left-3 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-ink">0 km</span>
         )}
         {!preview && (
           <button
@@ -32,17 +32,17 @@ export function VehicleCard({ v, list, preview }: { v: Vehicle; list?: boolean; 
               toast(fav ? 'Removido dos favoritos' : 'Adicionado aos favoritos')
             }}
             aria-label="Favoritar"
-            className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/95 shadow transition hover:scale-110"
+            className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/95 transition hover:bg-white"
           >
             <Heart size={17} className={fav ? 'fill-red-500 text-red-500' : 'text-ink'} />
           </button>
         )}
       </div>
       <div className="flex flex-1 flex-col p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-ink-mute">{v.brand}</p>
-        <h3 className="mt-0.5 font-display text-lg font-semibold leading-tight">{v.model}</h3>
+        <p className="text-xs font-medium text-ink-mute">{v.brand}</p>
+        <h3 className="mt-0.5 text-base font-semibold leading-tight">{v.model}</h3>
         <p className="line-clamp-1 text-sm text-ink-soft">{v.version}</p>
-        <p className="mt-3 text-xl font-bold">{brl(v.price)}</p>
+        <p className="mt-3 text-lg font-semibold tracking-tight">{brl(v.price)}</p>
         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-ink-soft">
           <span>{v.year}</span>
           <span className="inline-flex items-center gap-1"><Gauge size={13} />{km(v.km)}</span>
@@ -54,7 +54,7 @@ export function VehicleCard({ v, list, preview }: { v: Vehicle; list?: boolean; 
     </>
   )
 
-  const cls = `group card flex overflow-hidden transition duration-300 hover:-translate-y-1 hover:shadow-lift ${list ? 'flex-row' : 'flex-col'}`
+  const cls = `group card flex overflow-hidden transition hover:shadow-lift ${list ? 'flex-row' : 'flex-col'}`
   if (preview) return <div className={cls}>{body}</div>
   return <Link to={`/veiculo/${v.id}`} className={`${cls} animate-fadeUp`}>{body}</Link>
 }

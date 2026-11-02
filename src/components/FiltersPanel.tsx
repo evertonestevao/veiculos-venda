@@ -28,7 +28,7 @@ export function FiltersPanel({ f, set, reset, count }: {
         <button
           key={i}
           onClick={() => onPick(value === i ? '' : i)}
-          className={`chip ${value === i ? 'border-ink bg-ink text-white' : 'border-paper-line bg-white hover:border-ink'}`}
+          className={`chip ${value === i ? 'border-accent bg-accent-soft text-accent' : 'border-paper-line bg-white hover:border-ink-mute'}`}
         >
           {i}
         </button>

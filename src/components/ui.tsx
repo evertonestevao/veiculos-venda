@@ -9,7 +9,7 @@ export function Toaster() {
       {toasts.map((t) => (
         <div
           key={t.id}
-          className="pointer-events-auto flex animate-pop items-center gap-2.5 rounded-xl bg-ink px-4 py-3 text-sm font-medium text-white shadow-lift"
+          className="pointer-events-auto flex animate-pop items-center gap-2.5 rounded-lg bg-ink px-4 py-3 text-sm font-medium text-white shadow-lift"
         >
           {t.kind === 'ok' ? <CheckCircle2 size={18} className="text-emerald-400" /> : <XCircle size={18} className="text-red-400" />}
           {t.text}
@@ -35,7 +35,7 @@ export function Modal({ open, onClose, title, children, wide }: { open: boolean;
         className={`card w-full animate-pop overflow-hidden rounded-b-none sm:rounded-b-2xl ${wide ? 'max-w-2xl' : 'max-w-md'}`}
       >
         <div className="flex items-center justify-between border-b border-paper-line px-5 py-4">
-          <h3 className="font-display text-lg font-semibold">{title}</h3>
+          <h3 className="text-base font-semibold">{title}</h3>
           <button onClick={onClose} className="rounded-lg p-1 text-ink-mute hover:bg-paper"><X size={18} /></button>
         </div>
         <div className="max-h-[75vh] overflow-y-auto p-5">{children}</div>

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Message, StoreProfile, Vehicle } from './types'
+import { STOCK_PHOTOS } from './stockPhotos'
 import { buildCivicVehicle, buildSeedMessages, buildSeedVehicles, DEFAULT_PROFILE } from './seed'
 import { uid } from './format'
 
@@ -78,14 +79,21 @@ export const useStore = create<State>()(
     }),
     {
       name: 'automarket-store',
-      version: 1,
-      // Inclui o anúncio do Civic para quem já tem dados salvos no navegador.
+      version: 2,
       migrate: (persisted, version) => {
         const state = persisted as State
-        if (version < 1 && !state.vehicles.some((v) => v.id === 'civic-lxr')) {
-          return { ...state, vehicles: [buildCivicVehicle(), ...state.vehicles] }
+        // Inclui o anúncio do Civic para quem já tem dados salvos no navegador.
+        const vehicles = version < 1 && !state.vehicles.some((v) => v.id === 'civic-lxr') ? [buildCivicVehicle(), ...state.vehicles] : state.vehicles
+        // Troca só as imagens de exemplo antigas, preservando fotos enviadas pelo anunciante.
+        return {
+          ...state,
+          vehicles: vehicles.map((v) => {
+            const stock = STOCK_PHOTOS[v.id]
+            if (!stock || !v.photos[0]?.includes('picsum.photos')) return v
+            const { photo, color, ...photoCredit } = stock
+            return { ...v, photos: [photo], color, photoCredit }
+          }),
         }
-        return state
       },
       // O estado de "logado" também fica aqui (sem autenticação real).
     },

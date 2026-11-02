@@ -36,7 +36,7 @@ export default function VehicleDetail() {
   if (!v) {
     return (
       <div className="mx-auto max-w-xl px-4 py-24 text-center">
-        <h1 className="font-display text-3xl font-bold">Anúncio não encontrado</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">Anúncio não encontrado</h1>
         <p className="mt-2 text-ink-soft">Ele pode ter sido removido ou vendido.</p>
         <Link to="/" className="btn-primary mt-6">Voltar para a busca</Link>
       </div>
@@ -59,7 +59,7 @@ export default function VehicleDetail() {
       <Link to="/" className="mb-5 inline-flex items-center gap-1 text-sm font-medium text-ink-soft hover:text-ink"><ChevronLeft size={16} /> Voltar</Link>
 
       {v.status !== 'ativo' && (
-        <div className="mb-5 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        <div className="mb-5 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
           Este anúncio está <strong>{v.status}</strong> e não aparece na busca pública.
         </div>
       )}
@@ -79,14 +79,19 @@ export default function VehicleDetail() {
           </div>
           <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-5">
             {photos.map((p, i) => (
-              <button key={i} onClick={() => setIdx(i)} className={`aspect-[4/3] overflow-hidden rounded-xl border-2 transition ${i === idx ? 'border-accent' : 'border-transparent opacity-70 hover:opacity-100'}`}>
+              <button key={i} onClick={() => setIdx(i)} className={`aspect-[4/3] overflow-hidden rounded-lg border-2 transition ${i === idx ? 'border-accent' : 'border-transparent opacity-70 hover:opacity-100'}`}>
                 <img src={p} alt="" className="h-full w-full object-cover" />
               </button>
             ))}
           </div>
+          {v.photoCredit && (
+            <p className="mt-2 text-xs text-ink-mute">
+              Foto ilustrativa do modelo: <a href={v.photoCredit.source} target="_blank" rel="noreferrer" className="underline hover:text-ink">{v.photoCredit.author}</a>, {v.photoCredit.license}, via Wikimedia Commons.
+            </p>
+          )}
 
           <div className="card mt-8 p-6">
-            <h2 className="font-display text-xl font-semibold">Ficha técnica</h2>
+            <h2 className="text-base font-semibold">Ficha técnica</h2>
             <dl className="mt-4 grid gap-x-8 gap-y-3 sm:grid-cols-2">
               {specs.map(([k, val]) => (
                 <div key={k} className="flex justify-between border-b border-paper-line pb-2 text-sm">
@@ -97,7 +102,7 @@ export default function VehicleDetail() {
           </div>
 
           <div className="card mt-6 p-6">
-            <h2 className="font-display text-xl font-semibold">Opcionais</h2>
+            <h2 className="text-base font-semibold">Opcionais</h2>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
               {v.options.length === 0 && <li className="text-sm text-ink-soft">Nenhum opcional informado.</li>}
               {v.options.map((o) => <li key={o} className="flex items-center gap-2 text-sm"><Check size={15} className="text-accent" />{o}</li>)}
@@ -105,7 +110,7 @@ export default function VehicleDetail() {
           </div>
 
           <div className="card mt-6 p-6">
-            <h2 className="font-display text-xl font-semibold">Descrição</h2>
+            <h2 className="text-base font-semibold">Descrição</h2>
             <p className="mt-3 text-sm leading-relaxed text-ink-soft">{v.description || 'Sem descrição.'}</p>
             <p className="mt-4 text-xs text-ink-mute">Anúncio publicado em {dateBR(v.createdAt)} · {v.views} visualizações</p>
           </div>
@@ -115,15 +120,15 @@ export default function VehicleDetail() {
           <div className="card p-6">
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-wide text-ink-mute">{v.brand}</p>
-                <h1 className="font-display text-2xl font-bold leading-tight">{v.model}</h1>
+                <p className="text-xs font-medium text-ink-mute">{v.brand}</p>
+                <h1 className="text-xl font-semibold tracking-tight leading-tight">{v.model}</h1>
                 <p className="text-sm text-ink-soft">{v.version}</p>
               </div>
               <div className="flex gap-1.5">
-                <button onClick={() => { toggleFav(v.id); toast(fav ? 'Removido dos favoritos' : 'Adicionado aos favoritos') }} className="grid h-10 w-10 place-items-center rounded-xl border border-paper-line hover:bg-paper" aria-label="Favoritar">
+                <button onClick={() => { toggleFav(v.id); toast(fav ? 'Removido dos favoritos' : 'Adicionado aos favoritos') }} className="grid h-10 w-10 place-items-center rounded-lg border border-paper-line hover:bg-paper" aria-label="Favoritar">
                   <Heart size={17} className={fav ? 'fill-red-500 text-red-500' : ''} />
                 </button>
-                <button onClick={() => toast('Link copiado (simulado)')} className="grid h-10 w-10 place-items-center rounded-xl border border-paper-line hover:bg-paper" aria-label="Compartilhar"><Share2 size={17} /></button>
+                <button onClick={() => { navigator.clipboard?.writeText(window.location.href); toast('Link copiado') }} className="grid h-10 w-10 place-items-center rounded-lg border border-paper-line hover:bg-paper" aria-label="Compartilhar"><Share2 size={17} /></button>
               </div>
             </div>
             <p className="mt-4 text-3xl font-bold">{brl(v.price)}</p>
@@ -133,7 +138,7 @@ export default function VehicleDetail() {
             <div className="mt-6 space-y-2.5 border-t border-paper-line pt-5">
               <div className="mb-3 flex items-center gap-3">
                 <span className="grid h-11 w-11 place-items-center rounded-full bg-ink text-white"><UserRound size={19} /></span>
-                <div><p className="text-sm font-semibold">{v.sellerName}</p><p className="text-xs text-ink-mute">Vendedor (fictício)</p></div>
+                <div><p className="text-sm font-semibold">{v.sellerName}</p><p className="text-xs text-ink-mute">Anunciante</p></div>
               </div>
               <button onClick={() => setPhone(true)} className="btn-primary w-full"><Phone size={16} />{phone ? v.sellerPhone : 'Ver telefone'}</button>
               <button onClick={() => setMsgOpen(true)} className="btn-accent w-full"><MessageSquare size={16} /> Enviar mensagem</button>
@@ -145,7 +150,7 @@ export default function VehicleDetail() {
 
       {similar.length > 0 && (
         <section className="mt-16">
-          <h2 className="font-display text-2xl font-bold">Veículos semelhantes</h2>
+          <h2 className="text-xl font-semibold tracking-tight">Veículos semelhantes</h2>
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{similar.map((s) => <VehicleCard key={s.id} v={s} />)}</div>
         </section>
       )}
@@ -177,12 +182,12 @@ export default function VehicleDetail() {
               <input type="number" step="0.01" min={0} className="input" value={taxa} onChange={(e) => setTaxa(Number(e.target.value))} />
             </div>
           </div>
-          <div className="rounded-2xl bg-ink p-5 text-white">
-            <p className="text-xs uppercase tracking-wide text-white/60">Parcela estimada</p>
-            <p className="mt-1 font-display text-3xl font-bold">{brlFull(parcela)}<span className="text-base font-normal text-white/60"> /mês</span></p>
-            <p className="mt-2 text-xs text-white/60">Financiado: {brlFull(financed)} · Total: {brlFull(parcela * parcelas + entrada)}</p>
+          <div className="rounded-xl bg-accent-soft p-5">
+            <p className="text-xs text-ink-soft">Parcela estimada</p>
+            <p className="mt-1 text-2xl font-semibold tracking-tight">{brlFull(parcela)}<span className="text-base font-normal text-ink-soft"> /mês</span></p>
+            <p className="mt-2 text-xs text-ink-soft">Financiado: {brlFull(financed)} · Total: {brlFull(parcela * parcelas + entrada)}</p>
           </div>
-          <p className="text-xs text-ink-mute">Simulação ilustrativa (Tabela Price), sem valor contratual.</p>
+          <p className="text-xs text-ink-mute">Valores estimados pela Tabela Price. Condições sujeitas à análise de crédito.</p>
         </div>
       </Modal>
     </div>
@@ -200,7 +205,7 @@ function MessageModal({ open, onClose, onSend }: { open: boolean; onClose: () =>
           <div><label className="label">Telefone</label><input className="input" value={d.phone} onChange={(e) => setD({ ...d, phone: e.target.value })} placeholder="(00) 00000-0000" /></div>
         </div>
         <div><label className="label">Mensagem</label><textarea rows={4} className="input" value={d.text} onChange={(e) => setD({ ...d, text: e.target.value })} /></div>
-        <button className="btn-accent w-full">Enviar</button>
+        <button className="btn-primary w-full">Enviar</button>
       </form>
     </Modal>
   )

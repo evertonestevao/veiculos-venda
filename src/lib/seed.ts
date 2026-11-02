@@ -1,4 +1,5 @@
 import type { Message, StoreProfile, Vehicle, VehicleType } from './types'
+import { STOCK_PHOTOS } from './stockPhotos'
 
 
 export const CATALOG: Record<string, { type: VehicleType; models: string[] }> = {
@@ -110,23 +111,24 @@ export function buildCivicVehicle(): Vehicle {
 export function buildSeedVehicles(): Vehicle[] {
   const now = Date.now()
   return [buildCivicVehicle(), ...ROWS.map((r, i): Vehicle => {
-    const [brand, model, version, year, kmv, price, transmission, fuel, color, city, state, condition] = r
+    const [brand, model, version, year, kmv, price, transmission, fuel, , city, state, condition] = r
     const type = CATALOG[brand]?.type ?? 'Carro'
     const isMoto = type === 'Moto' || brand === 'Yamaha' || brand === 'Kawasaki' || model === 'R 1250 GS'
     const realType: VehicleType = isMoto ? 'Moto' : ['Compass', 'Renegade', 'Creta', 'X1', 'Tucson', 'Commander'].includes(model) ? 'SUV' : ['Ranger', 'S10', 'Toro', 'Maverick', 'Strada'].includes(model) ? 'Caminhonete' : 'Carro'
     const seller = SELLERS[i % SELLERS.length]
     const opts = OPTIONS.filter((_, k) => (k * 7 + i * 3) % 3 !== 0).slice(0, 6 + (i % 6))
-    const photos = [0, 1, 2, 3].map((k) => `https://picsum.photos/seed/automarket-${i}-${k}/1200/800`)
+    const { photo, color: stockColor, ...photoCredit } = STOCK_PHOTOS[`v${i + 1}`]
     return {
       id: `v${i + 1}`,
       type: realType,
-      brand, model, version, year, km: kmv, price, transmission, fuel, color, city, state, condition,
+      brand, model, version, year, km: kmv, price, transmission, fuel, color: stockColor, city, state, condition,
       acceptsTrade: i % 3 !== 0,
       featured: i % 5 === 0,
       status: i === 7 ? 'vendido' : i === 13 ? 'pausado' : 'ativo',
       options: opts,
       description: DESCRIPTIONS[i % DESCRIPTIONS.length],
-      photos,
+      photos: [photo],
+      photoCredit,
       views: 120 + ((i * 97) % 900),
       createdAt: new Date(now - (i * 6 + 1) * day).toISOString(),
       sellerName: seller[0],
@@ -157,5 +159,5 @@ export const DEFAULT_PROFILE: StoreProfile = {
   email: 'contato@garageelite.exemplo',
   phone: '(14) 3333-0000',
   city: 'Lins - SP',
-  about: 'Loja fictícia de demonstração com os melhores seminovos da região.',
+  about: 'Loja de veículos seminovos em Lins - SP.',
 }

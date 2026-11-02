@@ -12,8 +12,8 @@ export default function Messages() {
 
   return (
     <div className="mx-auto max-w-6xl">
-      <h1 className="font-display text-3xl font-bold">Mensagens</h1>
-      <p className="mb-6 text-sm text-ink-soft">Contatos recebidos (fictícios). Mensagens enviadas pelo site público também aparecem aqui.</p>
+      <h1 className="text-2xl font-semibold tracking-tight">Mensagens</h1>
+      <p className="mb-6 text-sm text-ink-soft">Contatos recebidos pelos seus anúncios.</p>
 
       {messages.length === 0 ? (
         <div className="card flex flex-col items-center px-6 py-16 text-center"><Inbox size={32} className="text-accent" /><p className="mt-3 font-semibold">Nenhuma mensagem</p></div>
@@ -37,7 +37,7 @@ export default function Messages() {
             <div className="card p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
-                  <h2 className="font-display text-xl font-semibold">{m.name || 'Visitante'}</h2>
+                  <h2 className="text-base font-semibold">{m.name || 'Visitante'}</h2>
                   <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-soft">
                     <span className="inline-flex items-center gap-1.5"><Mail size={14} />{m.email || '—'}</span>
                     <span className="inline-flex items-center gap-1.5"><Phone size={14} />{m.phone || '—'}</span>
@@ -46,13 +46,13 @@ export default function Messages() {
                 <span className="text-xs text-ink-mute">{new Date(m.date).toLocaleString('pt-BR')}</span>
               </div>
               {veh && (
-                <Link to={`/veiculo/${veh.id}`} className="mt-5 flex items-center gap-3 rounded-xl border border-paper-line p-3 transition hover:bg-paper">
+                <Link to={`/veiculo/${veh.id}`} className="mt-5 flex items-center gap-3 rounded-lg border border-paper-line p-3 transition hover:bg-paper">
                   <img src={veh.photos[0]} alt="" className="h-14 w-20 rounded-lg object-cover" />
                   <div><p className="text-xs text-ink-mute">Sobre o veículo</p><p className="text-sm font-semibold">{veh.brand} {veh.model} {veh.year}</p></div>
                 </Link>
               )}
-              <p className="mt-5 rounded-xl bg-paper p-4 text-sm leading-relaxed">{m.text}</p>
-              <button className="btn-primary mt-5" onClick={() => alert('Protótipo: nada é enviado de verdade.')}>Responder (simulado)</button>
+              <p className="mt-5 rounded-lg bg-paper p-4 text-sm leading-relaxed">{m.text}</p>
+              <button className="btn-primary mt-5" onClick={() => alert('O envio de respostas ainda não está disponível.')}>Responder</button>
             </div>
           )}
         </div>

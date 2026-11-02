@@ -5,17 +5,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: { DEFAULT: '#1c1f26', soft: '#4b5160', mute: '#8a90a0' },
-        paper: { DEFAULT: '#faf8f4', card: '#ffffff', line: '#e8e4dc' },
-        accent: { DEFAULT: '#c8892b', dark: '#a56d1a', soft: '#fbf1de' },
+        ink: { DEFAULT: '#0f172a', soft: '#475569', mute: '#64748b' },
+        paper: { DEFAULT: '#f8fafc', card: '#ffffff', line: '#e2e8f0' },
+        accent: { DEFAULT: '#2563eb', dark: '#1d4ed8', soft: '#eff6ff' },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        sans: ['Geist', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 1px 2px rgba(28,31,38,.04), 0 8px 24px -8px rgba(28,31,38,.10)',
-        lift: '0 2px 4px rgba(28,31,38,.05), 0 18px 40px -12px rgba(28,31,38,.20)',
+        soft: '0 1px 2px rgba(15,23,42,.04)',
+        lift: '0 4px 16px -4px rgba(15,23,42,.12)',
       },
       keyframes: {
         fadeUp: { '0%': { opacity: 0, transform: 'translateY(8px)' }, '100%': { opacity: 1, transform: 'none' } },

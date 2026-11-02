@@ -3,7 +3,7 @@ import { Link, NavLink, Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { Car, ExternalLink, LayoutDashboard, LogOut, Menu, MessageSquare, Moon, Plus, RotateCcw, Settings, Sun, X } from 'lucide-react'
 import { useStore } from '../lib/store'
 import { ConfirmModal } from '../components/ui'
-import { DemoBanner, Logo } from './PublicLayout'
+import { Logo } from './PublicLayout'
 
 export function ProtectedRoute() {
   const logged = useStore((s) => s.logged)
@@ -30,9 +30,9 @@ function AdminLayout() {
   const [confirm, setConfirm] = useState(false)
 
   const sidebar = (
-    <div className="flex h-full flex-col bg-ink p-4 text-white">
+    <div className="flex h-full flex-col border-r border-paper-line bg-white p-4">
       <div className="flex items-center justify-between px-2 py-2">
-        <Logo light />
+        <Logo />
         <button className="lg:hidden" onClick={() => setOpen(false)}><X size={20} /></button>
       </div>
       <Link to="/admin/veiculos/novo" onClick={() => setOpen(false)} className="btn-accent mt-6"><Plus size={16} /> Novo veículo</Link>
@@ -40,24 +40,23 @@ function AdminLayout() {
         {links.map((l) => (
           <NavLink
             key={l.to} to={l.to} end={l.end} onClick={() => setOpen(false)}
-            className={({ isActive }) => `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${isActive ? 'bg-white/10 text-white' : 'text-white/60 hover:bg-white/5 hover:text-white'}`}
+            className={({ isActive }) => `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${isActive ? 'bg-accent-soft text-accent' : 'text-ink-soft hover:bg-paper hover:text-ink'}`}
           >
             <l.icon size={18} /> {l.label}
-            {l.label === 'Mensagens' && unread > 0 && <span className="ml-auto rounded-full bg-accent px-2 text-xs font-bold">{unread}</span>}
+            {l.label === 'Mensagens' && unread > 0 && <span className="ml-auto rounded-full bg-accent px-2 text-xs font-medium text-white">{unread}</span>}
           </NavLink>
         ))}
       </nav>
-      <div className="mt-auto space-y-1 border-t border-white/10 pt-4">
-        <Link to="/" target="_blank" className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white"><ExternalLink size={18} /> Ver site público</Link>
-        <button onClick={() => setConfirm(true)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white"><RotateCcw size={18} /> Restaurar dados de exemplo</button>
-        <button onClick={() => { logout(); nav('/login') }} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-white/60 hover:bg-white/5 hover:text-white"><LogOut size={18} /> Sair</button>
+      <div className="mt-auto space-y-1 border-t border-paper-line pt-4">
+        <Link to="/" target="_blank" className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ink-soft hover:bg-paper hover:text-ink"><ExternalLink size={18} /> Ver site público</Link>
+        <button onClick={() => setConfirm(true)} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm text-ink-soft hover:bg-paper hover:text-ink"><RotateCcw size={18} /> Restaurar dados de exemplo</button>
+        <button onClick={() => { logout(); nav('/login') }} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-ink-soft hover:bg-paper hover:text-ink"><LogOut size={18} /> Sair</button>
       </div>
     </div>
   )
 
   return (
     <div className="min-h-screen">
-      <DemoBanner />
       <div className="flex">
         <aside className="sticky top-0 hidden h-screen w-64 shrink-0 lg:block">{sidebar}</aside>
         {open && (
@@ -70,7 +69,7 @@ function AdminLayout() {
           <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-paper-line bg-paper/90 px-4 backdrop-blur sm:px-8">
             <button className="lg:hidden" onClick={() => setOpen(true)}><Menu size={22} /></button>
             <p className="mr-auto text-sm text-ink-soft">Olá, <strong className="text-ink">{profile.name}</strong></p>
-            <button onClick={toggleDark} className="grid h-10 w-10 place-items-center rounded-xl hover:bg-white" aria-label="Tema">{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
+            <button onClick={toggleDark} className="grid h-10 w-10 place-items-center rounded-lg hover:bg-paper" aria-label="Tema">{dark ? <Sun size={18} /> : <Moon size={18} />}</button>
             <span className="grid h-10 w-10 place-items-center rounded-full bg-accent font-bold text-white">{profile.name.charAt(0)}</span>
           </header>
           <main className="p-4 sm:p-8"><Outlet /></main>
@@ -79,7 +78,7 @@ function AdminLayout() {
       <ConfirmModal
         open={confirm} onClose={() => setConfirm(false)} onConfirm={resetSeed}
         title="Restaurar dados de exemplo" confirmLabel="Restaurar"
-        text="Isso apaga tudo que está salvo neste navegador (veículos, favoritos, mensagens, login) e recarrega os dados fictícios originais."
+        text="Veículos, favoritos e mensagens salvos neste navegador serão apagados e os dados de exemplo serão restaurados."
       />
     </div>
   )

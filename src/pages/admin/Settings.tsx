@@ -9,8 +9,8 @@ export default function Settings() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="font-display text-3xl font-bold">Configurações</h1>
-      <p className="mb-6 text-sm text-ink-soft">Perfil da loja. Salvo apenas no localStorage deste navegador.</p>
+      <h1 className="text-2xl font-semibold tracking-tight">Configurações</h1>
+      <p className="mb-6 text-sm text-ink-soft">Dados exibidos no perfil da sua loja.</p>
       <form className="card space-y-4 p-6" onSubmit={(e) => { e.preventDefault(); save(p); toast('Configurações salvas') }}>
         <div><label className="label">Nome da loja</label><input className="input" {...f('name')} /></div>
         <div className="grid gap-4 sm:grid-cols-2">

@@ -4,6 +4,12 @@ export type Fuel = 'Flex' | 'Gasolina' | 'Diesel' | 'Elétrico' | 'Híbrido'
 export type Condition = 'Novo' | 'Usado'
 export type Status = 'ativo' | 'pausado' | 'vendido'
 
+export interface PhotoCredit {
+  author: string
+  license: string
+  source: string
+}
+
 export interface Vehicle {
   id: string
   type: VehicleType
@@ -25,6 +31,7 @@ export interface Vehicle {
   options: string[]
   description: string
   photos: string[]
+  photoCredit?: PhotoCredit
   views: number
   createdAt: string // ISO
   sellerName: string

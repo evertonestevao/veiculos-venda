@@ -20,7 +20,7 @@ const MAX_MB = 1.2
 function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
   return (
     <section className="card p-6">
-      <h2 className="font-display text-lg font-semibold">{title}</h2>
+      <h2 className="text-base font-semibold">{title}</h2>
       {hint && <p className="text-xs text-ink-mute">{hint}</p>}
       <div className="mt-4 grid gap-4 sm:grid-cols-2">{children}</div>
     </section>
@@ -58,7 +58,7 @@ export default function VehicleForm() {
     if (!files) return
     Array.from(files).forEach((f) => {
       if (!f.type.startsWith('image/')) return toast(`${f.name}: não é uma imagem`, 'err')
-      if (f.size > MAX_MB * 1024 * 1024) return toast(`${f.name} excede ${MAX_MB} MB (limite do localStorage)`, 'err')
+      if (f.size > MAX_MB * 1024 * 1024) return toast(`${f.name} excede o limite de ${MAX_MB} MB`, 'err')
       const r = new FileReader()
       r.onload = () => setD((p) => ({ ...p, photos: [...p.photos, String(r.result)] }))
       r.readAsDataURL(f)
@@ -85,7 +85,7 @@ export default function VehicleForm() {
       else { addVehicle(d); toast('Veículo cadastrado') }
       nav('/admin/veiculos')
     } catch {
-      toast('Espaço do navegador esgotado — use menos fotos ou URLs', 'err')
+      toast('Limite de armazenamento atingido. Use menos fotos ou links.', 'err')
     }
   }
 
@@ -96,7 +96,7 @@ export default function VehicleForm() {
     <form onSubmit={submit} className="mx-auto max-w-6xl">
       <Link to="/admin/veiculos" className="mb-4 inline-flex items-center gap-1 text-sm font-medium text-ink-soft hover:text-ink"><ChevronLeft size={16} /> Voltar</Link>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <h1 className="font-display text-3xl font-bold">{existing ? 'Editar veículo' : 'Novo veículo'}</h1>
+        <h1 className="text-2xl font-semibold tracking-tight">{existing ? 'Editar veículo' : 'Novo veículo'}</h1>
         <div className="flex gap-2">
           <Link to="/admin/veiculos" className="btn-ghost">Cancelar</Link>
           <button className="btn-accent">{existing ? 'Salvar alterações' : 'Publicar anúncio'}</button>
@@ -149,7 +149,7 @@ export default function VehicleForm() {
           </Section>
 
           <section className="card p-6">
-            <h2 className="font-display text-lg font-semibold">Opcionais</h2>
+            <h2 className="text-base font-semibold">Opcionais</h2>
             <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {OPTIONS.map((o) => (
                 <label key={o} className="flex cursor-pointer items-center gap-2 text-sm">
@@ -173,18 +173,18 @@ export default function VehicleForm() {
           </Section>
 
           <section className="card p-6">
-            <h2 className="font-display text-lg font-semibold">Fotos</h2>
-            <p className="text-xs text-ink-mute">Upload vira base64 e é salvo no localStorage, que é limitado (~5 MB no total). Até {MAX_MB} MB por imagem; prefira colar URLs.</p>
+            <h2 className="text-base font-semibold">Fotos</h2>
+            <p className="text-xs text-ink-mute">Envie imagens de até {MAX_MB} MB ou cole o link da foto.</p>
 
             <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
               {d.photos.map((p, i) => (
-                <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-xl border border-paper-line">
+                <div key={i} className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-paper-line">
                   <img src={p} alt="" className="h-full w-full object-cover" />
                   {i === 0 && <span className="absolute left-1.5 top-1.5 rounded bg-accent px-1.5 py-0.5 text-[10px] font-bold text-white">CAPA</span>}
                   <button type="button" onClick={() => set('photos', d.photos.filter((_, k) => k !== i))} className="absolute right-1.5 top-1.5 grid h-7 w-7 place-items-center rounded-full bg-white/95 text-red-600 opacity-0 shadow transition group-hover:opacity-100"><Trash2 size={13} /></button>
                 </div>
               ))}
-              <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-paper-line text-xs font-medium text-ink-soft transition hover:border-accent hover:text-accent">
+              <label className="flex aspect-[4/3] cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border-2 border-dashed border-paper-line text-xs font-medium text-ink-soft transition hover:border-accent hover:text-accent">
                 <Upload size={20} /> Enviar foto
                 <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { onFiles(e.target.files); e.target.value = '' }} />
               </label>
@@ -198,9 +198,6 @@ export default function VehicleForm() {
               </div>
               <button type="button" className="btn-ghost" onClick={() => { if (/^https?:\/\//.test(url)) { set('photos', [...d.photos, url]); setUrl('') } else toast('Informe uma URL válida', 'err') }}><Plus size={16} /> Adicionar</button>
             </div>
-            <button type="button" className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-accent-dark hover:underline" onClick={() => set('photos', [...d.photos, ...[0, 1, 2].map((k) => `https://picsum.photos/seed/${Date.now()}-${k}/1200/800`)])}>
-              <ImagePlus size={14} /> Usar fotos de exemplo
-            </button>
           </section>
         </div>
 

@@ -45,8 +45,8 @@ export default function Dashboard() {
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <div>
-        <h1 className="font-display text-3xl font-bold">Dashboard</h1>
-        <p className="text-sm text-ink-soft">Resumo do seu estoque (dados fictícios).</p>
+        <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+        <p className="text-sm text-ink-soft">Visão geral do seu estoque.</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -55,10 +55,10 @@ export default function Dashboard() {
             {loading ? <div className="skeleton h-16" /> : (
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-wide text-ink-mute">{c.label}</p>
-                  <p className="mt-1 font-display text-3xl font-bold">{c.value}</p>
+                  <p className="text-xs font-medium text-ink-mute">{c.label}</p>
+                  <p className="mt-1 text-2xl font-semibold tracking-tight">{c.value}</p>
                 </div>
-                <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-soft text-accent"><c.icon size={22} /></span>
+                <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-soft text-accent"><c.icon size={22} /></span>
               </div>
             )}
           </div>
@@ -67,17 +67,17 @@ export default function Dashboard() {
 
       <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
         <div className="card p-6">
-          <h2 className="font-display text-lg font-semibold">Anúncios por mês</h2>
+          <h2 className="text-base font-semibold">Anúncios por mês</h2>
           <p className="mb-4 text-xs text-ink-mute">Últimos 6 meses</p>
           <div className="h-64">
             {loading ? <div className="skeleton h-full" /> : (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={chart}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e8e4dc" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <XAxis dataKey="label" tickLine={false} axisLine={false} fontSize={12} />
                   <YAxis allowDecimals={false} tickLine={false} axisLine={false} fontSize={12} width={28} />
-                  <Tooltip cursor={{ fill: 'rgba(200,137,43,.08)' }} contentStyle={{ borderRadius: 12, border: '1px solid #e8e4dc' }} />
-                  <Bar dataKey="anuncios" name="Anúncios" fill="#c8892b" radius={[8, 8, 0, 0]} />
+                  <Tooltip cursor={{ fill: 'rgba(37,99,235,.08)' }} contentStyle={{ borderRadius: 8, border: '1px solid #e2e8f0' }} />
+                  <Bar dataKey="anuncios" name="Anúncios" fill="#2563eb" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -86,7 +86,7 @@ export default function Dashboard() {
 
         <div className="card p-6">
           <div className="flex items-center justify-between">
-            <h2 className="font-display text-lg font-semibold">Últimos cadastrados</h2>
+            <h2 className="text-base font-semibold">Últimos cadastrados</h2>
             <Link to="/admin/veiculos" className="text-xs font-semibold text-accent-dark hover:underline">Ver todos</Link>
           </div>
           <ul className="mt-4 divide-y divide-paper-line">

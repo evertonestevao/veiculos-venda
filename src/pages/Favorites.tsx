@@ -10,13 +10,13 @@ export default function Favorites() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10">
-      <h1 className="font-display text-3xl font-bold">Meus favoritos</h1>
-      <p className="mt-1 text-sm text-ink-soft">{list.length} veículo(s) salvos neste navegador.</p>
+      <h1 className="text-2xl font-semibold tracking-tight">Meus favoritos</h1>
+      <p className="mt-1 text-sm text-ink-soft">{list.length} veículo(s) salvo(s).</p>
       {list.length === 0 ? (
         <div className="card mt-8 flex flex-col items-center px-6 py-16 text-center">
-          <span className="grid h-16 w-16 place-items-center rounded-2xl bg-accent-soft text-accent"><Heart size={28} /></span>
-          <h3 className="mt-4 font-display text-xl font-semibold">Você ainda não favoritou nada</h3>
-          <p className="mt-1 text-sm text-ink-soft">Toque no coração de qualquer anúncio para guardá-lo aqui.</p>
+          <span className="grid h-16 w-16 place-items-center rounded-xl bg-accent-soft text-accent"><Heart size={28} /></span>
+          <h3 className="mt-4 text-base font-semibold">Nenhum favorito salvo</h3>
+          <p className="mt-1 text-sm text-ink-soft">Clique no coração de um anúncio para salvá-lo aqui.</p>
           <Link to="/" className="btn-primary mt-5">Explorar veículos</Link>
         </div>
       ) : (

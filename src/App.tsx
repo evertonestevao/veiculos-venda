@@ -39,7 +39,7 @@ export default function App() {
           <Route path="configuracoes" element={<Settings />} />
         </Route>
         <Route path="*" element={<PublicLayout />}>
-          <Route path="*" element={<div className="py-24 text-center font-display text-3xl font-bold">Página não encontrada</div>} />
+          <Route path="*" element={<div className="py-24 text-center text-2xl font-semibold tracking-tight">Página não encontrada</div>} />
         </Route>
       </Routes>
       <Toaster />
