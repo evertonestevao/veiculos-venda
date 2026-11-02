@@ -50,7 +50,7 @@ export default function Home() {
         <img src="/vehicles/banner.jpg" alt="" className="absolute inset-y-0 right-0 h-full w-full object-cover object-center lg:w-[56%]" />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-950 via-slate-950/80 to-slate-950/10 lg:from-[44%] lg:via-slate-950/30 lg:via-[62%] lg:to-transparent" />
         <div className="relative mx-auto max-w-7xl px-4 py-16 sm:py-24">
-          <h1 className="max-w-2xl text-balance text-4xl font-semibold tracking-tight sm:text-6xl">Seu próximo carro começa aqui.</h1>
+          <h1 className="max-w-2xl text-balance text-4xl font-semibold tracking-tight sm:text-6xl">Seu próximo carro está aqui.</h1>
           <p className="mt-4 max-w-lg text-lg text-white/80">Compare preços, quilometragem e versões em um só lugar e simule o financiamento antes de falar com o vendedor.</p>
 
           <div className="card mt-8 grid max-w-2xl gap-2 p-2 text-ink shadow-lift sm:grid-cols-[1fr_1fr_1fr_auto]">
