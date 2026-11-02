@@ -44,6 +44,7 @@ export default function VehicleDetail() {
   }
 
   const photos = v.photos.length ? v.photos : []
+  const credit = v.photoCredits?.[photos[idx]]
   const go = (d: number) => setIdx((i) => (i + d + photos.length) % photos.length)
   const financed = Math.max(v.price - entrada, 0)
   const parcela = installment(financed, parcelas, taxa)
@@ -84,9 +85,9 @@ export default function VehicleDetail() {
               </button>
             ))}
           </div>
-          {v.photoCredit && (
+          {credit && (
             <p className="mt-2 text-xs text-ink-mute">
-              Foto ilustrativa do modelo: <a href={v.photoCredit.source} target="_blank" rel="noreferrer" className="underline hover:text-ink">{v.photoCredit.author}</a>, {v.photoCredit.license}, via Wikimedia Commons.
+              Foto ilustrativa do modelo: <a href={credit.source} target="_blank" rel="noreferrer" className="underline hover:text-ink">{credit.author}</a>, {credit.license}, via Wikimedia Commons.
             </p>
           )}
 

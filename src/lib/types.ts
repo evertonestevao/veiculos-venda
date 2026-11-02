@@ -31,7 +31,7 @@ export interface Vehicle {
   options: string[]
   description: string
   photos: string[]
-  photoCredit?: PhotoCredit
+  photoCredits?: Record<string, PhotoCredit>
   views: number
   createdAt: string // ISO
   sellerName: string

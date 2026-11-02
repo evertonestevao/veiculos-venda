@@ -1,5 +1,5 @@
 import type { Message, StoreProfile, Vehicle, VehicleType } from './types'
-import { STOCK_PHOTOS } from './stockPhotos'
+import { stockFields } from './stockPhotos'
 
 
 export const CATALOG: Record<string, { type: VehicleType; models: string[] }> = {
@@ -117,18 +117,16 @@ export function buildSeedVehicles(): Vehicle[] {
     const realType: VehicleType = isMoto ? 'Moto' : ['Compass', 'Renegade', 'Creta', 'X1', 'Tucson', 'Commander'].includes(model) ? 'SUV' : ['Ranger', 'S10', 'Toro', 'Maverick', 'Strada'].includes(model) ? 'Caminhonete' : 'Carro'
     const seller = SELLERS[i % SELLERS.length]
     const opts = OPTIONS.filter((_, k) => (k * 7 + i * 3) % 3 !== 0).slice(0, 6 + (i % 6))
-    const { photo, color: stockColor, ...photoCredit } = STOCK_PHOTOS[`v${i + 1}`]
     return {
       id: `v${i + 1}`,
       type: realType,
-      brand, model, version, year, km: kmv, price, transmission, fuel, color: stockColor, city, state, condition,
+      brand, model, version, year, km: kmv, price, transmission, fuel, city, state, condition,
       acceptsTrade: i % 3 !== 0,
       featured: i % 5 === 0,
       status: i === 7 ? 'vendido' : i === 13 ? 'pausado' : 'ativo',
       options: opts,
       description: DESCRIPTIONS[i % DESCRIPTIONS.length],
-      photos: [photo],
-      photoCredit,
+      ...stockFields(`v${i + 1}`),
       views: 120 + ((i * 97) % 900),
       createdAt: new Date(now - (i * 6 + 1) * day).toISOString(),
       sellerName: seller[0],

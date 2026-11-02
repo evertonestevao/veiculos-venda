@@ -1,8 +1,44 @@
+import { useRef, useState, type MouseEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { Fuel, Gauge, Heart, MapPin, Settings2, Star } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Fuel, Gauge, Heart, MapPin, Settings2, Star } from 'lucide-react'
 import type { Vehicle } from '../lib/types'
 import { brl, km } from '../lib/format'
 import { toast, useStore } from '../lib/store'
+
+function PhotoCarousel({ photos, alt }: { photos: string[]; alt: string }) {
+  const track = useRef<HTMLDivElement>(null)
+  const [idx, setIdx] = useState(0)
+
+  const go = (e: MouseEvent, delta: number) => {
+    e.preventDefault()
+    const el = track.current
+    if (el) el.scrollTo({ left: (idx + delta) * el.clientWidth, behavior: 'smooth' })
+  }
+  const arrow = 'absolute top-1/2 hidden h-8 w-8 -translate-y-1/2 place-items-center rounded-full bg-white/95 text-ink [@media(hover:hover)]:group-hover:grid'
+
+  return (
+    <>
+      <div
+        ref={track}
+        onScroll={(e) => setIdx(Math.round(e.currentTarget.scrollLeft / e.currentTarget.clientWidth))}
+        className="flex h-full snap-x snap-mandatory overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        {photos.map((p, i) => (
+          <img key={i} src={p} alt={`${alt}, foto ${i + 1}`} loading="lazy" draggable={false} className="h-full w-full shrink-0 snap-center object-cover" />
+        ))}
+      </div>
+      {photos.length > 1 && (
+        <>
+          {idx > 0 && <button type="button" onClick={(e) => go(e, -1)} aria-label="Foto anterior" className={`${arrow} left-3`}><ChevronLeft size={18} /></button>}
+          {idx < photos.length - 1 && <button type="button" onClick={(e) => go(e, 1)} aria-label="Próxima foto" className={`${arrow} right-3`}><ChevronRight size={18} /></button>}
+          <div className="pointer-events-none absolute inset-x-0 bottom-3 flex justify-center gap-1.5">
+            {photos.map((_, i) => <span key={i} className={`h-1.5 w-1.5 rounded-full shadow ${i === idx ? 'bg-white' : 'bg-white/50'}`} />)}
+          </div>
+        </>
+      )}
+    </>
+  )
+}
 
 export function VehicleCard({ v, list, preview }: { v: Vehicle; list?: boolean; preview?: boolean }) {
   const fav = useStore((s) => s.favorites.includes(v.id))
@@ -12,7 +48,7 @@ export function VehicleCard({ v, list, preview }: { v: Vehicle; list?: boolean; 
     <>
       <div className={`relative overflow-hidden bg-paper-line ${list ? 'aspect-[4/3] w-48 shrink-0 sm:w-72' : 'aspect-[4/3]'}`}>
         {v.photos[0] ? (
-          <img src={v.photos[0]} alt={`${v.brand} ${v.model}`} loading="lazy" className="h-full w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
+          <PhotoCarousel photos={v.photos} alt={`${v.brand} ${v.model}`} />
         ) : (
           <div className="flex h-full items-center justify-center text-xs text-ink-mute">Sem foto</div>
         )}

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Message, StoreProfile, Vehicle } from './types'
-import { STOCK_PHOTOS } from './stockPhotos'
+import { STOCK_PHOTOS, stockFields } from './stockPhotos'
 import { buildCivicVehicle, buildSeedMessages, buildSeedVehicles, DEFAULT_PROFILE } from './seed'
 import { uid } from './format'
 
@@ -79,7 +79,7 @@ export const useStore = create<State>()(
     }),
     {
       name: 'automarket-store',
-      version: 2,
+      version: 3,
       migrate: (persisted, version) => {
         const state = persisted as State
         // Inclui o anúncio do Civic para quem já tem dados salvos no navegador.
@@ -89,9 +89,8 @@ export const useStore = create<State>()(
           ...state,
           vehicles: vehicles.map((v) => {
             const stock = STOCK_PHOTOS[v.id]
-            if (!stock || !v.photos[0]?.includes('picsum.photos')) return v
-            const { photo, color, ...photoCredit } = stock
-            return { ...v, photos: [photo], color, photoCredit }
+            const isSample = v.photos[0]?.includes('picsum.photos') || (v.photos.length === 1 && v.photos[0] === stock?.photos[0].photo)
+            return stock && isSample ? { ...v, ...stockFields(v.id) } : v
           }),
         }
       },
